@@ -1,0 +1,102 @@
+   # # Check for surrounding symbols
+      # # Char after the number
+      # if SYMBOLS.include?(char)
+      #   numbers << number if number.size > 0
+      #   number = ""
+      #   break
+      # end
+
+      # # Char right before the number
+      # unless index - (length + 2) < 0
+      #   if SYMBOLS.include?(line[index - length+ 2])
+      #     numbers << number if number.size > 0
+      #     number = ""
+      #     break
+      #   end
+      # end
+
+      # # Check line above
+      # unless line_number - 1 < 0
+      #   start = index - (length + 2)
+      #   above = input[line_number - 1][start..index]
+      #   above.each_char do |char|
+      #     if SYMBOLS.include?(char)
+      #       numbers << number if number.size > 0
+      #       number = ""
+      #       break
+      #     end
+      #   end
+
+
+      end
+
+      # # Check line below
+      # unless line_number + 1 > input.size
+      #   start = index - (length + 2)
+      #   below = input[line_number + 1][start..index]
+      #   below.each_char do |char|
+      #     if SYMBOLS.include?(char)
+      #       numbers << number if number.size > 0
+      #       number = ""
+      #       break
+      #     end
+      #   end
+      # end
+
+      # reset number
+      number = ""
+
+
+      # def gear?(slice)
+#   slice.each_char do |char|
+#     return true if char == "*"
+#   end
+#   false
+# end
+
+   # if is_digit?(char) && index != LINE_LENGTH - 1
+    #     number << char
+    #     next
+    # elsif is_digit?(char) && index == LINE_LENGTH - 1
+    #     length = number.size
+    #     start_index = [0, (index - length)].max
+    #     start_line_number = [0, (line_number - 1)].max
+    #     end_line_number = [INPUT_LENGTH - 1, (line_number + 1)].min
+
+    #     # slice_to_check = input[start_line][start_index..index] + input[line_number][start_index..index] + input[end_line][start_index..index]
+
+    #     # if engine_part?(slice_to_check)
+    #     #   numbers << number.to_i if number.size > 0
+    #     # end
+    #     # number = ""
+    #   elsif !is_digit?(char) && is_digit?(line[index - 1])
+    #     length = number.size
+    #     start_index = [0, (index - (length + 1))].max
+    #     start_line_number = [0, (line_number - 1)].max
+    #     end_line_number = [INPUT_LENGTH - 1, (line_number + 1)].min
+
+    #     # slice_to_check = input[start_line][start_index..index] + input[line_number][start_index..index] + input[end_line][start_index..index]
+
+    #     # if engine_part?(slice_to_check)
+    #     #   numbers << number.to_i if number.size > 0
+    #     # end
+
+    #     # number = ""
+
+
+    ..35..633.
+......#...
+617*......
+.....+.58.
+..592.....
+......755.
+...$.*....
+.664.598..
+
+
+
+     if column == (line.length - 1)
+          if engine_part?(input, row, column, current_number)
+            sum += current_number.to_i
+            numbers << current_number.to_i
+          end
