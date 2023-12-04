@@ -197,6 +197,18 @@ def get_adjacent_asterisk_coords(input, row, last_number_index, current_number)
   asterisk_coords
 end
 
+def add_to_potential_gears(asterisk_coords, potential_gears, current_number)
+  if !asterisk_coords.empty?
+    asterisk_coords.each do |coords|
+      if potential_gears.key?(coords)
+        potential_gears[coords] << current_number
+      else
+        potential_gears[coords] = [current_number]
+      end
+    end
+  end
+end
+
 def find_gear_ratio_sum(input)
   numbers = []
 
@@ -211,30 +223,11 @@ def find_gear_ratio_sum(input)
 
         if column == (line.length - 1)
           asterisk_coords = get_adjacent_asterisk_coords(input, row, column, current_number)
-
-          if !asterisk_coords.empty?
-            asterisk_coords.each do |coords|
-              if potential_gears.key?(coords)
-                potential_gears[coords] << current_number
-              else
-                potential_gears[coords] = [current_number]
-              end
-            end
-          end
+          add_to_potential_gears(asterisk_coords, potential_gears, current_number)
         end
       elsif !current_number.empty?
         asterisk_coords = get_adjacent_asterisk_coords(input, row, column - 1, current_number)
-
-        if !asterisk_coords.empty?
-          asterisk_coords.each do |coords|
-            if potential_gears.key?(coords)
-              potential_gears[coords] << current_number
-            else
-              potential_gears[coords] = [current_number]
-            end
-          end
-        end
-
+        add_to_potential_gears(asterisk_coords, potential_gears, current_number)
         current_number = ""
       end
     end
