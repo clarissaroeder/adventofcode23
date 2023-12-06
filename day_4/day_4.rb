@@ -1,4 +1,3 @@
-egg = {}
 # Load file
 # path = "example_cards.txt"
 path = "scratchcards.txt"
@@ -147,29 +146,122 @@ def get_matches(card)
   (winning & candidates).count
 end
 
-def win_copies(cards, card_number, matches, counter)
-  return egg[card_number] if egg[card_number]
-  return counter if matches.zero?
+def win_copies(cards, card_number, counter)
+  sum = 1
+  matches = get_matches(cards[card_number])
 
+  if counter[card_number]
+    sum = counter[card_number]
+    return sum
+  end
 
   (1..matches).each do |i|
     new_card_number = card_number + i
-
-   # if cards.key?(new_card_number)
-      counter[new_card_number] += 1
-      matches = get_matches(cards[new_card_number])
-      win_copies(cards, new_card_number, matches, counter)
-    #end
+    sum = sum + win_copies(cards, new_card_number, counter)
   end
+
+  if counter[card_number].nil?
+    counter[card_number] = sum
+  end
+
+  return sum
 end
-# Egg
+
+# def get_total_generations(cards, card_number, matches, counter)
+#   return if matches.zero?
+#   # if the card_number is in counter, return the value
+
+#   # if the card_number is not yet in counter:
+#   (1..matches).each do |i|
+#     new_card_number = card_number + i
+#     matches = get_matches(cards[new_card_number])
+#     sum = get_total_generations(cards, new_card_number, matches, counter)
+#     # add to storage
+#   end
+
+# end
+
 # Main
 counter = {}
-cards.each { |num, card| counter[num] = 1 }
 
+sum = 0
 cards.each do |card_number, card|
-  matches = get_matches(card)
-  win_copies(cards, card_number, matches, counter)
+  sum = sum + win_copies(cards, card_number, counter)
 end
 
-p counter.values.sum
+# p storage
+# p counter
+# p counter.values.sum
+p sum
+
+
+=begin
+
+- How many copies does a card generate? I.e. how many matches does a card have?
+- Which cards get copied by which card?
+
+{ 1 => {winning: [], yours: [], instances: int }
+
+- Card 1: has 4 matches -> number of instances times do: copy card 2, 3, 4, and 5 --> increase their instances by 1
+- Card 2: has 2 matches -> copies card 3 and 4
+  etc.
+
+
+
+=end
+
+# def parse(input)
+#   cards = {}
+#   input.each do |card|
+#     card = card.split(/:|\|/)
+#     card_number = card[0].split[1].to_i
+#     winning = card[1].split.map(&:to_i)
+#     yours = card[2].split.map(&:to_i)
+#     cards[card_number] = {winning: winning, yours: yours, count: 1}
+#   end
+#   cards
+# end
+
+# def get_matches(card)
+#   winning = card[1][:winning]
+#   yours = card[1][:yours]
+#   (winning & yours).count
+# end
+
+# def find_copies(card_number, matches)
+#   copies = []
+#   (1..matches).each do |i|
+#     copies << card_number + i
+#   end
+#   copies
+# end
+
+# def process_wins(cards)
+#   cards.each do |card|
+#     # p card
+#     card_number = card[0]
+#     count = card[1][:count]
+
+#     count.times do
+#       matches = get_matches(card)
+#       copied_cards = find_copies(card_number, matches)
+#       copied_cards.each do |copied_card_number|
+#        # p cards[copied_card_number]
+#        cards[copied_card_number][:count] += 1
+#       end
+#     end
+#   end
+# end
+
+# def get_total_number(cards)
+#   sum = 0
+#   cards.each do |_, card|
+#     sum += card[:count]
+#   end
+#   sum
+# end
+
+# cards = parse(input)
+# process_wins(cards)
+
+# p get_total_number(cards)
