@@ -42,16 +42,17 @@ class Hand
   end
 
   def find_type
-    case
-    when five_of_a_kind? then self.type = 7
-    when four_of_a_kind? then self.type = 6
-    when full_house? then self.type = 5
-    when three_of_a_kind? then self.type = 4
-    when two_pair? then self.type = 3
-    when pair? then self.type = 2
+    self.type = case
+    when five_of_a_kind? then 7
+    when four_of_a_kind? then 6
+    when full_house? then 5
+    when three_of_a_kind? then 4
+    when two_pair? then 3
+    when pair? then 2
     else
-      self.type = 1
+      1
     end
+  end
   end
 
   def calculate_wins
@@ -105,21 +106,21 @@ class Hand
       cards.map! { |c| c == 'J' ? '1' : c }
     else
       other_cards = cards - ['J']
-      replacement = other_cards.sort_by { |c| other_cards.count(c) }.last
+      replacement = other_cards.max_by { |c| other_cards.count(c) }
       cards.map! { |c| c == 'J' ? replacement : c }
     end
   end
 
   def find_type
-    case
-    when five_of_a_kind? then self.type = 7
-    when four_of_a_kind? then self.type = 6
-    when full_house? then self.type = 5
-    when three_of_a_kind? then self.type = 4
-    when two_pair? then self.type = 3
-    when pair? then self.type = 2
+    self.type = case
+    when five_of_a_kind? then 7
+    when four_of_a_kind? then 6
+    when full_house? then 5
+    when three_of_a_kind? then 4
+    when two_pair? then 3
+    when pair? then 2
     else
-      self.type = 1
+      1
     end
   end
 
@@ -150,12 +151,14 @@ class Hand
   end
 
   def to_s
-    "cards replaced: #{cards} original:#{tiebreak_cards} type: #{type} rank: #{rank} wins: #{wins}"
+    "cards replaced: #{cards} original:#{tiebreak_cards} \
+    type: #{type} rank: #{rank} wins: #{wins}"
   end
 end
 
 class CamelCards
   attr_accessor :hands
+
   def initialize(input)
     @hands = []
     get_hands(input)
@@ -181,7 +184,7 @@ class CamelCards
   end
 
   def sum_wins
-    hands.each { |hand| hand.calculate_wins }
+    hands.each(&:calculate_wins)
 
     result = 0
     hands.each do |hand|
