@@ -174,24 +174,29 @@ class Advent
   def track_beam(row, column, direction)
     current_tile = grid[row][column]
 
-    return if current_tile.visited?(direction) # base case 1: loop detected
+    loop do
+      return if current_tile.nil?                # base case 1: out of bounds
+      return if current_tile.visited?(direction) # base case 2: loop detected
 
-    current_tile.energise
-    current_tile.visit(direction)
+      current_tile.energise
+      current_tile.visit(direction)
 
-    direction = find_next_direction(current_tile.type, direction)
+      direction = find_next_direction(current_tile.type, direction)
 
-    if direction == "split"
-      new_directions = split_directions(current_tile.type)
-      track_beam(row, column, new_directions[0])
-      track_beam(row, column, new_directions[1])
-    else
-      row, column = find_next_coords(row, column, direction)
-      valid_tile = (0..(grid.size - 1)).include?(row) &&
-                    (0..(grid[0].size - 1)).include?(column)
+      if direction == "split"
+        new_directions = split_directions(current_tile.type)
+        track_beam(row, column, new_directions[0])
+        track_beam(row, column, new_directions[1])
+        return                                   # base case 3: split into two
+      else
+        row, column = find_next_coords(row, column, direction)
 
-      return unless valid_tile                 # base case 2: out of bounds
-      track_beam(row, column, direction)
+        valid_tile = (0..(grid.size - 1)).include?(row) &&
+                     (0..(grid[0].size - 1)).include?(column)
+
+        next_tile = valid_tile ? grid[row][column] : nil
+        current_tile = next_tile
+      end
     end
   end
 
