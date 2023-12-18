@@ -56,15 +56,15 @@ class Graph
 
     (0..coordinates.size - 2).each do |index|
       va = coordinates[index]
-      vb= coordinates[index + 1]
+      vb = coordinates[index + 1]
 
       sum += (va[0] * vb[1]) - (vb[0] * va[1])
     end
 
     area = (sum.abs) / 2
 
-    area += ((total_steps + 1) / 2.0).ceil
-    puts "The result is: #{area}"
+    inner_area = area - ((total_steps) / 2) + 1
+    puts "The result is: #{inner_area + total_steps}"
   end
 
   def calculate_coordinates
@@ -79,17 +79,21 @@ class Graph
 
       case direction
       when "R"
-        (1..steps).each { |i| coordinates << [current_row, current_col + i] }
+        # (1..steps).each { |i| coordinates << [current_row, current_col + i] }
         current_col += steps
+        coordinates << [current_row, current_col]
       when "L"
-        (1..steps).each { |i| coordinates << [current_row, current_col - i] }
+        # (1..steps).each { |i| coordinates << [current_row, current_col - i] }
         current_col -= steps
+        coordinates << [current_row, current_col]
       when "D"
-        (1..steps).each { |i| coordinates << [current_row + i, current_col] }
+        # (1..steps).each { |i| coordinates << [current_row + i, current_col] }
         current_row += steps
+        coordinates << [current_row, current_col]
       when "U"
-        (1..steps).each { |i| coordinates << [current_row - i, current_col] }
+        # (1..steps).each { |i| coordinates << [current_row - i, current_col] }
         current_row -= steps
+        coordinates << [current_row, current_col]
       end
 
       counter += 1
